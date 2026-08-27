@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /*
 Opret klassen TouristRepository i repository package med annoteringen
@@ -58,8 +57,9 @@ public class TouristRepository {
     }
 
 
-    public void deleteAttractionByString(String search){
+    public boolean deleteAttractionByString(String search){
         list.removeIf(t -> t.getName().contains(search));
+        return false;
     }
 
 }

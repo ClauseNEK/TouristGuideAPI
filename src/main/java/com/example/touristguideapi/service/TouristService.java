@@ -27,7 +27,7 @@ public class TouristService {
     }
 
     public TouristAttraction getAttractionByName(String name) {
-        return touristRepository.getAttractionByName(name);
+        return touristRepository.searchAttractionByString(name);
     }
 
     public boolean updateAttraction(String name, TouristAttraction updated) {
@@ -35,7 +35,7 @@ public class TouristService {
     }
 
     public boolean deleteAttraction(String name) {
-        return touristRepository.deleteAttraction(name);
+        return touristRepository.deleteAttractionByString(name);
     }
 
 }
