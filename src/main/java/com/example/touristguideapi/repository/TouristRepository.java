@@ -35,7 +35,7 @@ public class TouristRepository {
         list.add(TA);
     }
 
-    public TouristAttraction getNumberAttraction(int number){
+    public TouristAttraction getAttractionNumber(int number){
         return list.get(number);
     }
 
@@ -43,7 +43,7 @@ public class TouristRepository {
         list.remove(number);
     }
 
-    public void updateAttrations(int number, TouristAttraction TA){
+    public void updateAttraction(int number, TouristAttraction TA){
         list.set(number,TA);
     }
 
