@@ -6,8 +6,6 @@ public class TouristAttraction {
 
     //Constructor (maybe not need)
     public TouristAttraction(String name, String description){
-        this.name = name;
-        this.description = description;
     }
 
     // Getters \\
@@ -18,7 +16,6 @@ public class TouristAttraction {
     public String getDescription(){
         return description;
     }
-
 
     // Setters if needed \\
     public void setName(String name){
@@ -33,7 +30,7 @@ public class TouristAttraction {
     //toString override
     @Override
     public String toString() {
-        return "Navn:" + name + "Beskrivelse" + description;
+        return "Navn: " + name + ", Beskrivelse: " + description;
     }
 }
 
