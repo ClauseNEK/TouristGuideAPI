@@ -50,7 +50,7 @@ public class TouristRepository {
 
     public TouristAttraction searchAttractionByString(String search){
        for(TouristAttraction t : list){
-           if(t.getName().contains(search) || t.getDescription().contains(search)){
+           if(t.getName().toLowerCase().contains(search.toLowerCase()) || t.getDescription().toLowerCase().contains(search.toLowerCase())){
                return t;
            }
        }
@@ -59,7 +59,7 @@ public class TouristRepository {
 
 
     public void deleteAttractionByString(String search){
-        list.removeIf(t -> t.getName().contains(search));
+        list.removeIf(t -> t.getName().toLowerCase().contains(search.toLowerCase()));
     }
 
 }
