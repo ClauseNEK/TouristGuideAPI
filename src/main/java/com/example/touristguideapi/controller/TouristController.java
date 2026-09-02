@@ -48,5 +48,13 @@ public class TouristController {
     /* Animal createdAnimal = animalService.createAnimal(animal);
      return ResponseEntity.status(HttpStatus.CREATED).body(createdAnimal) */
 
+    @PostMapping("/update")
+    @ResponseBody
+    public ResponseEntity<TouristAttraction> updateAttraction(@RequestBody String name, TouristAttraction touristAttraction) {
+        touristService.updateAttraction(name, touristAttraction);
+        return touristAttraction == null ?
+                ResponseEntity.badRequest().build() :
+                ResponseEntity.status(HttpStatus.CREATED).body(touristAttraction);
+    }
 
 }
