@@ -1,33 +1,68 @@
+<!-- bruger ! + tab for en html template -->
+
+
 <!DOCTYPE html>
 <html lang="da">
 <head>
     <meta charset="UTF-8">
-    <title>Turistguide - Attraktioner</title>
+    <title>Turistguide | København</title>
+    <!-- Her linker vi til vores stylesheet så HTML og CSS ikke ligger i en samlet fil --->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>Vores attraktioner</h1>
+<!-- H1 (Overskrift) -->
+<h1>Velkommen til Turistguide København</h1>
 
+<!-- Her laver vi en paragraf -->
+<p>
+    Her kan du se nogle af de mest kendte attraktioner i København.
+</p>
+
+<!-- Opretter en Navigation med en href -->
+<!-- Tivoli eksempel -->
+<nav>
+    <ul>
+        <li><a href="/attractions">Se alle attraktioner (JSON)</a></li>
+        <li><a href="/attractions/tivoli">Se Tivoli (JSON)</a></li>
+    </ul>
+</nav>
+
+<!-- H2 Overskrift -->
+<h2>Attraktioner</h2>
+
+
+<!-- Laver div og definerer med en class til css -->
 <div class="attraktion">
-    <img src="tivoli.png" alt="Tivoli">
+    <img src="images/tivoli.png" alt="Tivoli">
     <p>Tivoli</p>
 </div>
 
 <div class="attraktion">
-    <img src="bakken_logo_2026.png" alt="Bakken">
+    <img src="images/bakken_logo_2026.png" alt="Bakken">
     <p>Bakken</p>
 </div>
 
 <div class="attraktion">
-    <img src="vega.png" alt="Vega">
+    <img src="images/vega.png" alt="Vega">
     <p>Vega</p>
 </div>
 
 <div class="attraktion">
-    <img src="royalarena.png" alt="Royal Arena">
+    <img src="images/royalarena.png" alt="Royal Arena">
     <p>Royal Arena</p>
 </div>
+
+<div class="attraktion">
+    <img src="images/turistinformation.png" alt="Turistinformation">
+    <p>Turistinformation</p>
+</div>
+
+<!-- Opretter en footer som også skal have en fast placering af css i bunden -->
+
+<footer>
+    <p>Kontakt Turisttosserne | turisttosserne@mail.dk</p>
+</footer>
 
 </body>
 </html>

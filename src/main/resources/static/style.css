@@ -1,0 +1,36 @@
+body {
+    font-family: Arial;
+    background-color: white;
+    color: black;
+    margin: 20px;
+    text-align: center;
+}
+
+h1 {
+    color: darkblue;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav li {
+    display: inline;
+    margin-right: 15px;
+}
+
+.attraktion {
+    display: inline-block;
+    margin: 15px;
+}
+
+.attraktion img {
+    width: 200px;
+}
+
+footer {
+    margin-top: 40px;
+    border-top: 1px solid black;
+    padding-top: 10px;
+}
