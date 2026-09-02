@@ -64,7 +64,6 @@ public class TouristController {
         return name == null ?
                 ResponseEntity.badRequest().build() :
                 ResponseEntity.status(HttpStatus.CREATED).body(touristAttraction); */
-
 }
 
     /*  @GetMapping("/{name}")
