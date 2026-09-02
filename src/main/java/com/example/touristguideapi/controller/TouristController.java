@@ -57,4 +57,20 @@ public class TouristController {
                 ResponseEntity.status(HttpStatus.CREATED).body(touristAttraction);
     }
 
+    /* @PostMapping("/delete/{name}")
+    @ResponseBody
+    public ResponseEntity<TouristAttraction> deleteAttraction(@RequestBody String name, TouristAttraction touristAttraction) {
+        touristService.deleteAttraction(name);
+        return name == null ?
+                ResponseEntity.badRequest().build() :
+                ResponseEntity.status(HttpStatus.CREATED).body(touristAttraction); */
 }
+
+    /*  @GetMapping("/{name}")
+    @ResponseBody
+    public ResponseEntity<TouristAttraction> getAttraction(@PathVariable String name) {
+        TouristAttraction touristAttraction = touristService.getAttractionByName(name);
+        return touristAttraction == null ?
+                ResponseEntity.notFound().build() :
+                ResponseEntity.ok(touristAttraction);
+    } */
