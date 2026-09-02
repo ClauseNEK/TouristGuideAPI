@@ -6,6 +6,8 @@ public class TouristAttraction {
 
     //Constructor (maybe not need)
     public TouristAttraction(String name, String description){
+        this.name = name;
+        this.description = description;
     }
 
     // Getters \\
