@@ -37,8 +37,6 @@ public class TouristController {
 
     }
 
-    @GetMapping
-
 
 
 }
