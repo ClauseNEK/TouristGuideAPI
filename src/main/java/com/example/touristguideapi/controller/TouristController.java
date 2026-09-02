@@ -2,6 +2,7 @@ package com.example.touristguideapi.controller;
 
 import com.example.touristguideapi.model.TouristAttraction;
 import com.example.touristguideapi.service.TouristService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +35,18 @@ public class TouristController {
         return touristAttraction == null ?
                 ResponseEntity.notFound().build() :
                 ResponseEntity.ok(touristAttraction);
-
     }
+
+    @PostMapping("/add")
+    @ResponseBody
+    public ResponseEntity<TouristAttraction> addAttraction(@RequestBody TouristAttraction touristAttraction) {
+        touristService.addAttraction(touristAttraction);
+        return touristAttraction == null ?
+                ResponseEntity.badRequest().build() :
+                ResponseEntity.status(HttpStatus.CREATED).body(touristAttraction);
+    }
+    /* Animal createdAnimal = animalService.createAnimal(animal);
+     return ResponseEntity.status(HttpStatus.CREATED).body(createdAnimal) */
+
+
 }
