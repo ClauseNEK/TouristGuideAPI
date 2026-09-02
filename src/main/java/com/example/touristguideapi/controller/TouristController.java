@@ -20,11 +20,13 @@ public class TouristController {
 
     //alt skal gå igennem service og der skal ikke være repository herinde
 
-    @GetMapping
+    @GetMapping("/{name}")
     @ResponseBody
-    public ResponseEntity<List<TouristAttraction>> getAttractions() {
-        List<TouristAttraction> attractions = touristService.getAllAttractions();
-        return ResponseEntity.ok(attractions);
-    }
+    public ResponseEntity<TouristAttraction> GetAttraction(@PathVariable String name) {
+        TouristAttraction touristAttraction = touristService.getAttractionByName(name);
+        return touristAttraction == null ?
+                ResponseEntity.notFound().build() :
+                ResponseEntity.ok(touristAttraction);
 
+    }
 }
