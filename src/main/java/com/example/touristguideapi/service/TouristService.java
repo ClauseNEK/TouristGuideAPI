@@ -30,12 +30,12 @@ public class TouristService {
         return touristRepository.searchAttractionByString(name);
     }
 
-    public boolean updateAttraction(String name, TouristAttraction updated) {
-        return touristRepository.updateAttraction(name, updated);
+    public void updateAttraction(String name, TouristAttraction updated) {
+        touristRepository.updateAttraction(name, updated);
     }
 
-    public boolean deleteAttraction(String name) {
-        return touristRepository.deleteAttractionByString(name);
+    public void deleteAttraction(String name) {
+        touristRepository.deleteAttractionByString(name);
     }
 
 }

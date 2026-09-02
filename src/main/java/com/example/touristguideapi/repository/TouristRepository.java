@@ -44,16 +44,21 @@ public class TouristRepository {
         list.remove(number);
     }
 
-    public void updateAttraction(int number, TouristAttraction TA){
-        list.set(number,TA);
+    public void updateAttraction(String name, TouristAttraction updated) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getName().toLowerCase().contains(name.toLowerCase())) {
+                list.set(i, updated);
+                return;
+            }
+        }
     }
 
     public TouristAttraction searchAttractionByString(String search){
-       for(TouristAttraction t : list){
-           if(t.getName().toLowerCase().contains(search.toLowerCase()) || t.getDescription().toLowerCase().contains(search.toLowerCase())){
-               return t;
-           }
-       }
+        for(TouristAttraction t : list){
+            if(t.getName().toLowerCase().contains(search.toLowerCase()) || t.getDescription().toLowerCase().contains(search.toLowerCase())){
+                return t;
+            }
+        }
         return null;
     }
 
