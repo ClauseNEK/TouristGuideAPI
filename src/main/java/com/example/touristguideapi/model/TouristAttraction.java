@@ -33,4 +33,3 @@ public class TouristAttraction {
         return "Navn: " + name + ", Beskrivelse: " + description;
     }
 }
-
