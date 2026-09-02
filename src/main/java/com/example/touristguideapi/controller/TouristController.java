@@ -36,7 +36,4 @@ public class TouristController {
                 ResponseEntity.ok(touristAttraction);
 
     }
-
-
-
 }
