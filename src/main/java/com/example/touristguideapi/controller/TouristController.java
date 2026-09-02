@@ -27,4 +27,18 @@ public class TouristController {
         return ResponseEntity.ok(attractions);
     }
 
+    @GetMapping("/{name}")
+    @ResponseBody
+    public ResponseEntity<TouristAttraction> GetAttraction(@PathVariable String name) {
+        TouristAttraction touristAttraction = touristService.getAttractionByName(name);
+        return touristAttraction == null ?
+                ResponseEntity.notFound().build() :
+                ResponseEntity.ok(touristAttraction);
+
+    }
+
+    @GetMapping
+
+
+
 }
