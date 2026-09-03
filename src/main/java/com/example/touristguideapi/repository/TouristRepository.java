@@ -26,6 +26,7 @@ public class TouristRepository {
         list.add(new TouristAttraction("Bakken","Sjov for hele familien"));
         list.add(new TouristAttraction("Vega","Musik året rundt"));
         list.add(new TouristAttraction("Royal Arena","Koncerter mm."));
+        list.add(new TouristAttraction("TuristInformation","Hjælp til alle dine turist behov"));
     }
 
     public List<TouristAttraction> getAllAttractions(){
