@@ -2,10 +2,28 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>attractionList</title>
+    <title>Attraktion i tabel</title>
     <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
-
+<div class="table-container">
+    <table class="custom-table">
+        <thead>
+        <tr>
+            <th>Attraktion</th>
+            <th>Beskrivelse</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="attraction : ${attraction}">
+            <td th:text="${attraction.name}"></td>
+            <td th:text="${attraction.beskrivelse}"></td>
+            <td class="button">Opdater</td>
+            <td class="button">Slet</td>
+            <td class="button">Tags</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
