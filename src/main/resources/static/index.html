@@ -2,7 +2,8 @@
 
 
 <!DOCTYPE html>
-<html lang="da">
+
+<html xmlns:th="http://www.thymeleaf.org" lang="da">
 <head>
     <meta charset="UTF-8">
     <title>Turistguide | København</title>
@@ -28,7 +29,7 @@
 </nav>
 
 <!-- H2 Overskrift -->
-<h2>Attraktioner</h2>
+<h2> Attraktioner</h2>
 
 
 <!-- Laver div og definerer med en class til css -->
@@ -43,6 +44,7 @@
     <a href="/attractions/bakken">
         <img src="images/bakken_logo_2026.png" alt="Bakken">
         <p>Bakken</p>
+        <p th:text="${idag}">  </p>
     </a>
 </div>
 

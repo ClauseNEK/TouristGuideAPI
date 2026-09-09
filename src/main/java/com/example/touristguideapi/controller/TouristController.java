@@ -5,6 +5,7 @@ import com.example.touristguideapi.service.TouristService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,9 +24,11 @@ public class TouristController {
 
     @GetMapping
     @ResponseBody
-    public ResponseEntity<List<TouristAttraction>> getAttractions() {
+    public ResponseEntity<List<TouristAttraction>> getAttractions(Model model) {
         List<TouristAttraction> attractions = touristService.getAllAttractions();
+        model.addAttribute("idag", "tirsdag");
         return ResponseEntity.ok(attractions);
+        //Ændre returntypen/statement til string eller
     }
 
     @GetMapping("/{name}")
@@ -45,8 +48,6 @@ public class TouristController {
                 ResponseEntity.badRequest().build() :
                 ResponseEntity.status(HttpStatus.CREATED).body(touristAttraction);
     }
-    /* Animal createdAnimal = animalService.createAnimal(animal);
-     return ResponseEntity.status(HttpStatus.CREATED).body(createdAnimal) */
 
     @PostMapping("/update")
     @ResponseBody
@@ -57,13 +58,14 @@ public class TouristController {
                 ResponseEntity.status(HttpStatus.CREATED).body(touristAttraction);
     }
 
-    /* @PostMapping("/delete/{name}")
+    @PostMapping("/delete/{name}")
     @ResponseBody
-    public ResponseEntity<TouristAttraction> deleteAttraction(@RequestBody String name, TouristAttraction touristAttraction) {
+    public ResponseEntity<TouristAttraction> deleteAttraction(@PathVariable String name, TouristAttraction touristAttraction) {
         touristService.deleteAttraction(name);
         return name == null ?
                 ResponseEntity.badRequest().build() :
-                ResponseEntity.status(HttpStatus.CREATED).body(touristAttraction); */
+                ResponseEntity.status(HttpStatus.CREATED).body(touristAttraction);
+    }
 }
 
     /*  @GetMapping("/{name}")
