@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class AttractionListController {
     TouristRepository tr = new TouristRepository();
 
-@GetMapping
+@GetMapping("/getAttractionList")
 public String getAttractions(Model model){
     model.addAttribute("attraction", tr.getAllAttractions());
     return "attractionList";
