@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="da">
 <head>
     <meta charset="UTF-8">
     <title th:text="${attraction.name} + ' tags'">Tags</title>
@@ -19,6 +19,9 @@
 
 <a th:href="@{/attractions}">
     <button type="button">Tilbage</button>
+</a>
+<a th:href="@{'/attractions/' + ${attraction.name} + '/edit'}">
+    <button type="button">Tilføj/Fjern</button>
 </a>
 
 </body>
