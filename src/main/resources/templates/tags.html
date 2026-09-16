@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${attraction.name} + ' tags'">Tags</title>
+    <link th:href="@{/style.css}" rel="stylesheet">
+</head>
+<body>
+
+<h1 th:text="${attraction.name} + ' tags'"></h1>
+
+<img th:if="${attraction.image}" th:src="@{'/images/' + ${attraction.image}}" alt="logo" class="hero">
+
+<table>
+    <tr th:each="tag : ${attraction.tags}">
+        <td th:text="${tag}"></td>
+    </tr>
+</table>
+
+<a th:href="@{/attractions}">
+    <button type="button">Tilbage</button>
+</a>
+
+</body>
+</html>

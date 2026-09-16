@@ -1,6 +1,5 @@
 package com.example.touristguideapi.service;
 
-
 import com.example.touristguideapi.model.TouristAttraction;
 import com.example.touristguideapi.repository.TouristRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +34,15 @@ public class TouristService {
     }
 
     public void deleteAttraction(String name) {
+        // Rettet: kaldte tidligere en metode der ikke fandtes (deleteAttraction)
         touristRepository.deleteAttractionByString(name);
     }
 
+    public List<String> getCities() {
+        return touristRepository.getCities();
+    }
+
+    public List<String> getTags() {
+        return touristRepository.getTags();
+    }
 }

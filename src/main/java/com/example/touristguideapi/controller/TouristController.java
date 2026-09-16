@@ -2,13 +2,9 @@ package com.example.touristguideapi.controller;
 
 import com.example.touristguideapi.model.TouristAttraction;
 import com.example.touristguideapi.service.TouristService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("attractions")
@@ -20,59 +16,60 @@ public class TouristController {
         this.touristService = touristService;
     }
 
-    //alt skal gå igennem service og der skal ikke være repository herinde
-
+    // Viser attractionList.html med data fra repository
     @GetMapping
-    @ResponseBody
-    public ResponseEntity<List<TouristAttraction>> getAttractions(Model model) {
-        List<TouristAttraction> attractions = touristService.getAllAttractions();
-        model.addAttribute("idag", "tirsdag");
-        return ResponseEntity.ok(attractions);
-        //Ændre returntypen/statement til string eller
+    public String getAttractions(Model model) {
+        model.addAttribute("attractions", touristService.getAllAttractions());
+        return "attractionList";
     }
 
-    @GetMapping("/{name}")
-    @ResponseBody
-    public ResponseEntity<TouristAttraction> getAttraction(@PathVariable String name) {
-        TouristAttraction touristAttraction = touristService.getAttractionByName(name);
-        return touristAttraction == null ?
-                ResponseEntity.notFound().build() :
-                ResponseEntity.ok(touristAttraction);
+    // Viser tags.html for en enkelt attraktion
+    @GetMapping("/{name}/tags")
+    public String getTags(@PathVariable String name, Model model) {
+        TouristAttraction attraction = touristService.getAttractionByName(name);
+        model.addAttribute("attraction", attraction);
+        return "tags";
     }
 
-    @PostMapping("/add")
-    @ResponseBody
-    public ResponseEntity<TouristAttraction> addAttraction(@RequestBody TouristAttraction touristAttraction) {
-        touristService.addAttraction(touristAttraction);
-        return touristAttraction == null ?
-                ResponseEntity.badRequest().build() :
-                ResponseEntity.status(HttpStatus.CREATED).body(touristAttraction);
+    // Viser tom formular til oprettelse af ny attraktion
+    @GetMapping("/add")
+    public String showAddForm(Model model) {
+        model.addAttribute("attraction", new TouristAttraction());
+        model.addAttribute("allCities", touristService.getCities());
+        model.addAttribute("allTags", touristService.getTags());
+        return "add";
     }
 
+
+
+    // Gemmer ny attraktion og sender brugeren tilbage til listen
+    @PostMapping("/save")
+    public String saveAttraction(@ModelAttribute TouristAttraction attraction) {
+        touristService.addAttraction(attraction);
+        return "redirect:/attractions";
+    }
+
+    // Viser formular forudfyldt med eksisterende data til redigering
+    @GetMapping("/{name}/edit")
+    public String showEditForm(@PathVariable String name, Model model) {
+        TouristAttraction attraction = touristService.getAttractionByName(name);
+        model.addAttribute("attraction", attraction);
+        model.addAttribute("allCities", touristService.getCities());
+        model.addAttribute("allTags", touristService.getTags());
+        return "updateAttraction";
+    }
+
+    // Gemmer ændringer og sender brugeren tilbage til listen
     @PostMapping("/update")
-    @ResponseBody
-    public ResponseEntity<TouristAttraction> updateAttraction(@RequestBody String name, TouristAttraction touristAttraction) {
-        touristService.updateAttraction(name, touristAttraction);
-        return touristAttraction == null ?
-                ResponseEntity.badRequest().build() :
-                ResponseEntity.status(HttpStatus.CREATED).body(touristAttraction);
+    public String updateAttraction(@ModelAttribute TouristAttraction attraction) {
+        touristService.updateAttraction(attraction.getName(), attraction);
+        return "redirect:/attractions";
     }
 
+    // Sletter attraktion og sender brugeren tilbage til listen
     @PostMapping("/delete/{name}")
-    @ResponseBody
-    public ResponseEntity<TouristAttraction> deleteAttraction(@PathVariable String name, TouristAttraction touristAttraction) {
+    public String deleteAttraction(@PathVariable String name) {
         touristService.deleteAttraction(name);
-        return name == null ?
-                ResponseEntity.badRequest().build() :
-                ResponseEntity.status(HttpStatus.CREATED).body(touristAttraction);
+        return "redirect:/attractions";
     }
 }
-
-    /*  @GetMapping("/{name}")
-    @ResponseBody
-    public ResponseEntity<TouristAttraction> getAttraction(@PathVariable String name) {
-        TouristAttraction touristAttraction = touristService.getAttractionByName(name);
-        return touristAttraction == null ?
-                ResponseEntity.notFound().build() :
-                ResponseEntity.ok(touristAttraction);
-    } */
