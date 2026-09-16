@@ -22,7 +22,7 @@ public class TouristRepository {
     public TouristRepository() {
         list.add(new TouristAttraction("Tivoli", "Sjov for hele familien", "København",
                 List.of("Børnevenlig", "Underholdning"), "tivoli.png"));
-        list.add(new TouristAttraction("Bakken", "Sjov for hele familien", "Kongens Lyngby",
+        list.add(new TouristAttraction("Bakken", "Underholdning for store og for små", "Kongens Lyngby",
                 List.of("Børnevenlig", "Underholdning"), "bakken_logo_2026.png"));
         list.add(new TouristAttraction("Vega", "Musik året rundt", "København",
                 List.of("Underholdning"), "vega.png"));

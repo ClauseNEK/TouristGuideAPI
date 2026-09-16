@@ -10,6 +10,12 @@ body {
     padding: 30px;
 }
 
+body > a {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+}
+
 h1 {
     text-align: center;
     color: #2c3e50;
