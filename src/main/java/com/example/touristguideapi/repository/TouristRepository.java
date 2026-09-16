@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -33,7 +34,7 @@ public class TouristRepository {
     }
 
     public List<TouristAttraction> getAllAttractions() {
-        return list;
+        return Collections.unmodifiableList(list);
     }
 
     public void addAttraction(TouristAttraction ta) {
