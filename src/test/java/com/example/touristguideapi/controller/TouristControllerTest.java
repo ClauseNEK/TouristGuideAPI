@@ -1,5 +1,6 @@
 package com.example.touristguideapi.controller;
 
+import com.example.touristguideapi.repository.TouristRepository;
 import com.example.touristguideapi.service.TouristService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,8 @@ class TouristControllerTest {
     void getAttractionCityTagsTest() {
         final List<String> cities = Arrays.asList(
                 "Albertslund", "København", "Odense", "Kongens Lyngby", "Aarhus");
-        assertEquals(service.getCities(),cities);
+        TouristRepository tr = new TouristRepository();
+        assertEquals(tr.getCities(),cities);
 
     }
 
