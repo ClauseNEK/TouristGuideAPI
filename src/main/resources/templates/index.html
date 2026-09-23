@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <title>Turistguide | København</title>
     <!-- Her linker vi til vores stylesheet så HTML og CSS ikke ligger i en samlet fil --->
-    <link rel="stylesheet" href="style.css">
+    <link th:href="index.css" rel="stylesheet">
 </head>
 <body>
 
@@ -24,7 +24,7 @@
 <!-- Tivoli eksempel -->
 <nav>
     <ul>
-        <li><a href="/attractions">Se alle attraktioner (JSON)</a></li>
+        <li><a href="/attractions">Se alle attraktioner</a></li>
     </ul>
 </nav>
 
@@ -34,37 +34,36 @@
 
 <!-- Laver div og definerer med en class til css -->
 <div class="attraktion">
-    <a href="/attractions/tivoli">
-        <img src="images/tivoli.png" alt="Tivoli">
+    <a href="https://www.tivoli.dk/">
+        <img th:src= "@{/images/tivoli.png}" alt="Tivoli">
         <p>Tivoli</p>
     </a>
 </div>
 
 <div class="attraktion">
-    <a href="/attractions/bakken">
-        <img src="images/bakken_logo_2026.png" alt="Bakken">
+    <a href="https://bakken.dk/">
+        <img th:src= "@{/images/bakken_logo_2026.png}" alt="Bakken">
         <p>Bakken</p>
-        <p th:text="${idag}">  </p>
     </a>
 </div>
 
 <div class="attraktion">
-    <a href="/attractions/vega">
-        <img src="images/vega.png" alt="Vega">
+    <a href="https://vega.dk/">
+        <img th:src= "@{/images/Vega.png}" alt="Vega">
         <p>Vega</p>
     </a>
 </div>
 
 <div class="attraktion">
-    <a href="/attractions/royal">
-        <img src="images/royalarena.png" alt="Royal Arena">
+    <a href="https://www.royalarena.dk/">
+        <img th:src= "@{/images/royalarena.png}" alt="Royal Arena">
         <p>Royal Arena</p>
     </a>
 </div>
 
 <div class="attraktion">
-    <a href="/attractions/turistinformation">
-        <img src="images/turistinformation.png" alt="Turistinformation">
+    <a href="https://www.visitcopenhagen.dk/koebenhavn/planlaeg-din-tur/copenhagen-visitor-service-gdk987969">
+        <img th:src= "@{/images/Turistinformation1.png}" alt="Turistinformation">
         <p>Turistinformation</p>
     </a>
 </div>
