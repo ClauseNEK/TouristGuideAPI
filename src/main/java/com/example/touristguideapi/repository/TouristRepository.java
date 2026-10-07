@@ -12,10 +12,14 @@ import java.util.List;
 public class TouristRepository {
 
     ArrayList<TouristAttraction> list = new ArrayList<>();
-//    private static final String sql_get_all = "";
-//    private static final String sql_get_all = "";
-//    private static final String sql_get_all = "";
-//    private static final String sql_get_all = "";
+//    private static final String sql_get_all = "SELECT * FROM touristattraction";
+//    private static final String sql_get_all_tags = "SELECT * FROM tags";
+//    private static final String sql_get_all_city = "SELECT * FROM City";
+//    private static final String sql_get_ta_by_id = "SELECT * FROM touristattraction WHERE id = ?";
+//    private static final String sql_get_ta_by_name = "SELECT * FROM touristattraction WHERE name = ?";
+//    private static final String sql_delete_ta_by_id = "DELETE * FROM touristattraction WHERE id = ?"
+//    private static final String sql_update_ta_by_id = "UPDATE * FROM touristattraction WHERE id = ?";
+
     // Hardkodede lister til select- og checkbox-udfyldning i formularerne
     private final List<String> cities = Arrays.asList(
             "Albertslund", "København", "Odense", "Kongens Lyngby", "Aarhus");
