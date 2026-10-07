@@ -4,6 +4,7 @@ import com.example.touristguideapi.model.TouristAttraction;
 import com.example.touristguideapi.repository.TouristRepository;
 import com.example.touristguideapi.service.TouristService;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -16,7 +17,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
@@ -41,12 +43,42 @@ class TouristControllerTest {
     }
 
     @Test
-    void getAttractionCityTagsTest() {
-        final List<String> cities = Arrays.asList(
-                "Albertslund", "København", "Odense", "Kongens Lyngby", "Aarhus");
-        TouristRepository tr = new TouristRepository();
-        assertEquals(tr.getCities(),cities);
+    void getAttractionCityTagsTest() throws Exception{
+        final List<String> tivolitags = Arrays.asList(
+                "Børnevenlig", "Underholdning");
+        when(service.getCities()).thenReturn(tivolitags);
+        //{name}/tags")
+        mockMvc.perform(post("/tivoli/tags")).andExpect(status().isAccepted())
+                .andExpect(view().name("tags"));
 
+        assertEquals(service.getCities(),tivolitags);
+
+    }
+
+    @Test
+    void addAttractionTest() throws Exception {
+        TouristAttraction ta = new TouristAttraction("Mikkel", "Cool Mofo","KBH", List.of("super-cool","even more cool"), "CoolKid.png");
+       // when(service.addAttraction(any(TouristAttraction.class))).thenReturn(ta); Bruges kun på funktioner som ikke er VOID
+
+        mockMvc.perform(post("/attractions/save")
+                        .param("name", "Mikkel")
+                        .param("description", "Cool Mofo")
+                        .param("city", "KBH")
+                        .param("tags", "super-cool","even more cool")
+                        .param("image", "CoolKid.png"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/attractions"));
+
+        ArgumentCaptor<TouristAttraction> captor = ArgumentCaptor.forClass(TouristAttraction.class);
+        verify(service).addAttraction(captor.capture());
+
+        TouristAttraction captorAdding = captor.getValue();
+
+        assertEquals("Mikkel",captorAdding.getName());
+        assertEquals("Cool Mofo",captorAdding.getDescription());
+        assertEquals("KBH",captorAdding.getCity());
+        assertEquals(List.of("super-cool","even more cool"),captorAdding.getTags());
+        assertEquals("CoolKid.png",captorAdding.getImage());
     }
 
     @Test
