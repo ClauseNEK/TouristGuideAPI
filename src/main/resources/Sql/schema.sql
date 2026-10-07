@@ -28,10 +28,10 @@ CREATE TABLE IF NOT EXISTS city (
 
 DROP TABLE IF EXISTS city_tags;
 CREATE TABLE IF NOT EXISTS city_tags (
-    city_tags_id int not null,
+    city_tags_id int not null, -- not needed?
     city_tags_city VARCHAR(255) touristattraction(name) NOT NULL,
     city_tags_tag VARCHAR(255) city(name) NOT NULL,
-    PRIMARY KEY(city_tags_city, city_tags_tag),
+    PRIMARY KEY(city_tags_city, city_tags_tag), -- behover ikke være et field/celle/Whatever?
     FOREIGN KEY (city_tags_city) REFERENCES city (city_name)
     FOREIGN KEY (city_tags_tag) REFERENCES tags (tags_tag)
     )
