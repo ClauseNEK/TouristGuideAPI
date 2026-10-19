@@ -43,16 +43,14 @@ class TouristControllerTest {
     }
 
     @Test
-    void getAttractionCityTagsTest() throws Exception{
-        final List<String> tivolitags = Arrays.asList(
-                "Børnevenlig", "Underholdning");
-        when(service.getCities()).thenReturn(tivolitags);
-        //{name}/tags")
-        mockMvc.perform(post("/tivoli/tags")).andExpect(status().isAccepted())
+    void getAttractionCityTagsTest() throws Exception {
+        TouristAttraction tivoli = new TouristAttraction("Tivoli", "Sjov for hele familien", "København",
+                List.of("Børnevenlig", "Underholdning"), "tivoli.png");
+        when(service.getAttractionByName("tivoli")).thenReturn(tivoli);
+
+        mockMvc.perform(get("/attractions/tivoli/tags"))
+                .andExpect(status().isOk())
                 .andExpect(view().name("tags"));
-
-        assertEquals(service.getCities(),tivolitags);
-
     }
 
     @Test
