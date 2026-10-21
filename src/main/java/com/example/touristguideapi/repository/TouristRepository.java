@@ -1,167 +1,115 @@
 package com.example.touristguideapi.repository;
 
 import com.example.touristguideapi.model.TouristAttraction;
+import com.example.touristguideapi.model.TouristAttractionRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
 
 @Repository
 public class TouristRepository {
 
-    ArrayList<TouristAttraction> list = new ArrayList<>();
-/*
+    private static final String SELECT_ATTRACTION =
+            "SELECT a.attraction_id, a.name, a.description, a.image, c.city_name " +
+            "FROM tourist_attraction a JOIN city c ON a.city_id = c.city_id ";
 
-//not sure about final stuff, troede måske det ku spare i nogle funktioner....ikke sikker på hvor smart det er...
-    private final List<TouristAttraction> ta_list = new ArrayList<>();
-    private static final String sql_get_all = "SELECT * FROM touristattraction";
-    private static final String sql_get_all_tags = "SELECT * FROM tags";
-    private static final String sql_get_all_city = "SELECT * FROM City";
-    private static final String sql_get_ta_by_id = "SELECT * FROM touristattraction WHERE id = ?";
-    private static final String sql_get_ta_by_name = "SELECT * FROM touristattraction WHERE name = ?";
-    private static final String sql_delete_ta_by_id = "DELETE * FROM touristattraction WHERE id = ?"
-    private static final String sql_update_ta_by_id = "UPDATE * FROM touristattraction WHERE id = ?";
+    private final JdbcTemplate jdbcTemplate;
+    private final TouristAttractionRowMapper rowMapper = new TouristAttractionRowMapper();
 
-    private static final String id = "touristattraction_id";
-    private static final String name = "touristattraction_name";
-    private static final String description = "touristattraction_desciption";
-    private static final String city = "touristattraction_city";
-    private static final String tags = "touristattraction_tags";
-
-    JdbcTemplate jdbcTemplate;
-
-    public TouristRepository(JdbcTemplate jdbcTemplate){
-    this.jdbcTemplate = jdbcTemplate;
+    public TouristRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
-    //tilføj via insert into
-    public void addAttraction(String name, String description, String city, Strings... tags){
-
-    String sql_add = "INSERT INTO touristattraction(name, description, city, tags) VALUES (?,?,?,?)";
-    jdbcTemplate.update(sql_add, name, description, city, tags);
-}
-
-//lave update, måske det skal ske for alle dele, så man kan nøjes med at opdatere én ting navn/des/whatever eller løsning med tomme updates, betyder det ikke updateres?
-//Der findes nok en smartere måde end samme metode med forskellige argumenter
-    public void updateAttraction(String name, String description, String city, String... tags){
-    String sql_update = "UPDATE touristattraction(name, description, city, tags) VALUES (?,?,?,?)";
-
-    jdbcTemplate.update(sql_add, name, description, city, tags);
-}
-
-//delete where id = ?
-    public void delteAttraction(int attration_id){
-    String sql_delete = "DELETE FROM touristattraction WHERE touristattraction_id = ?";
-
-    jdbcTemplate.update(sql_delete, attration_id);
-}
-
-
-  public List<TouristAttraction> findAll() {
-        String sql = "SELECT id, name FROM touristattraction";
-        return jdbcTemplate.query(sql, (rs, rowNum) ->
-                new TouristAttraction(rs.getInt("id"), rs.getString("name"),rs.getString("description"),rs.getString("city"),List.of(rs.getString("tags")))
-        );
-
-        //Kan også gøre sådan her:
-        SqlRowSet rowSet = jdbcTemplate.queryForRowSet("SELECT * FROM touristattraction");
-
-        while (rowSet.next()) {
-            int id = rowSet.getInt("id");
-            String name = rowSet.getString("name");
-            String description = rowSet.getString("description");
-            String city = rowSet.getString("city");
-            String tags = rowSet.getString("tags");
-            ta_list.add(new TouristAttraction(id, name, description, city, List.of(tags)));
-        }
-
-        //Kan også gøres sådan her, hvis rowmapper klassen er sat op ordenligt...Vi kommer nok til at mangle id i TouristAttraction
-        List<touristattraction> ta_list = jdbcTemplate.query("SELECT * FROM touristattraction", new TouristAttractionRowMapper());
-
-
-public void addAttraction(TouristAttraction newTA) throws SQLException {
-
-    String query = "INSERT INTO touristattraction(name, desciption, city, tags, image) VALUES( ?, ?, ?, ?, ?)";
-
-    PreparedStatement preparedStatement = connection.prepareStatement(query);
-
-        preparedStatement.setString(1, newTA.getName());
-        preparedStatement.setString(2, newTA.getDescirption());
-        preparedStatement.setString(3, newTA.getCity()); //foreingkey gets set from here?
-        preparedStatement.setListOf(4, newTA.getTags()); //foreingkey & list?!
-        preparedStatement.setString(5, newTA.getImage());
-        preparedStatement.executeUpdate();
-}
-
-*/
-
-
-    // Hardkodede lister til select- og checkbox-udfyldning i formularerne
-    private final List<String> cities = Arrays.asList(
-            "Albertslund", "København", "Odense", "Kongens Lyngby", "Aarhus");
-
-    private final List<String> tags = Arrays.asList(
-            "Børnevenlig", "Gratis", "Kunst", "Museum", "Natur", "Underholdning");
-
-    public TouristRepository() {
-        list.add(new TouristAttraction("Tivoli", "Sjov for hele familien", "København",
-                List.of("Børnevenlig", "Underholdning"), "tivoli.png"));
-        list.add(new TouristAttraction("Bakken", "Underholdning for store og for små", "Kongens Lyngby",
-                List.of("Børnevenlig", "Underholdning"), "bakken_logo_2026.png"));
-        list.add(new TouristAttraction("Vega", "Musik året rundt", "København",
-                List.of("Underholdning"), "vega.png"));
-        list.add(new TouristAttraction("Royal Arena", "Koncerter mm.", "København",
-                List.of("Underholdning"), "royalarena.png"));
-        list.add(new TouristAttraction("TuristInformation", "Hjælp til alle dine turist behov", "København",
-                List.of("Gratis"), "turistinformation.png"));
-    }
-
+    // READ - alle attraktioner inkl. tags
     public List<TouristAttraction> getAllAttractions() {
-        return Collections.unmodifiableList(list);
+        List<TouristAttraction> attractions =
+                jdbcTemplate.query(SELECT_ATTRACTION + "ORDER BY a.attraction_id", rowMapper);
+        attractions.forEach(a -> a.setTags(getTagsForAttraction(a.getId())));
+        return attractions;
     }
 
+    // READ - én attraktion ud fra navn (bruges af /attractions/{name}/...)
+    public TouristAttraction searchAttractionByString(String name) {
+        List<TouristAttraction> result = jdbcTemplate.query(
+                SELECT_ATTRACTION + "WHERE LOWER(a.name) = LOWER(?)", rowMapper, name);
+        if (result.isEmpty()) {
+            return null;
+        }
+        TouristAttraction attraction = result.get(0);
+        attraction.setTags(getTagsForAttraction(attraction.getId()));
+        return attraction;
+    }
+
+    // CREATE - indsætter attraktion og dens tags
     public void addAttraction(TouristAttraction ta) {
-        list.add(ta);
+        String sql = "INSERT INTO tourist_attraction (name, description, image, city_id) " +
+                     "VALUES (?, ?, ?, (SELECT city_id FROM city WHERE city_name = ?))";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, ta.getName());
+            ps.setString(2, ta.getDescription());
+            ps.setString(3, ta.getImage());
+            ps.setString(4, ta.getCity());
+            return ps;
+        }, keyHolder);
+
+        int newId = keyHolder.getKey().intValue();
+        ta.setId(newId);
+        insertTags(newId, ta.getTags());
     }
 
-    public TouristAttraction getAttractionNumber(int number) {
-        return list.get(number);
-    }
-
-    public void deleteAttractionNumber(int number) {
-        list.remove(number);
-    }
-
+    // UPDATE - opdaterer attraktion (fundet via navn) og erstatter dens tags
     public void updateAttraction(String name, TouristAttraction updated) {
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getName().toLowerCase().contains(name.toLowerCase())) {
-                list.set(i, updated);
-                return;
-            }
+        TouristAttraction existing = searchAttractionByString(name);
+        if (existing == null) {
+            return;
         }
+        String sql = "UPDATE tourist_attraction SET description = ?, image = ?, " +
+                     "city_id = (SELECT city_id FROM city WHERE city_name = ?) " +
+                     "WHERE attraction_id = ?";
+        jdbcTemplate.update(sql, updated.getDescription(), updated.getImage(),
+                updated.getCity(), existing.getId());
+
+        jdbcTemplate.update("DELETE FROM attraction_tag WHERE attraction_id = ?", existing.getId());
+        insertTags(existing.getId(), updated.getTags());
     }
 
-    public TouristAttraction searchAttractionByString(String search) {
-        for (TouristAttraction t : list) {
-            if (t.getName().toLowerCase().contains(search.toLowerCase())
-                    || t.getDescription().toLowerCase().contains(search.toLowerCase())) {
-                return t;
-            }
-        }
-        return null;
+    // DELETE - tags forsvinder automatisk pga. ON DELETE CASCADE
+    public void deleteAttractionByString(String name) {
+        jdbcTemplate.update("DELETE FROM tourist_attraction WHERE LOWER(name) = LOWER(?)", name);
     }
 
-    public void deleteAttractionByString(String search) {
-        list.removeIf(t -> t.getName().toLowerCase().contains(search.toLowerCase()));
-    }
-
+    // Til select-boksen i formularerne
     public List<String> getCities() {
-        return cities;
+        return jdbcTemplate.queryForList("SELECT city_name FROM city ORDER BY city_name", String.class);
     }
 
+    // Til checkboksene i formularerne
     public List<String> getTags() {
-        return tags;
+        return jdbcTemplate.queryForList("SELECT tag_name FROM tag ORDER BY tag_name", String.class);
+    }
+
+    private List<String> getTagsForAttraction(int attractionId) {
+        String sql = "SELECT t.tag_name FROM tag t " +
+                     "JOIN attraction_tag atag ON t.tag_id = atag.tag_id " +
+                     "WHERE atag.attraction_id = ? ORDER BY t.tag_name";
+        return jdbcTemplate.queryForList(sql, String.class, attractionId);
+    }
+
+    private void insertTags(int attractionId, List<String> tags) {
+        if (tags == null) {
+            return;
+        }
+        String sql = "INSERT INTO attraction_tag (attraction_id, tag_id) " +
+                     "VALUES (?, (SELECT tag_id FROM tag WHERE tag_name = ?))";
+        for (String tag : tags) {
+            jdbcTemplate.update(sql, attractionId, tag);
+        }
     }
 }

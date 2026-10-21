@@ -1,40 +1,42 @@
--- fake h2 DB
-CREATE DATABASE IF NOT EXISTS fakeDB
-       CHARACTER SET utf8mb4;
+-- Opretter tabellerne til Turistguiden.
+-- Kører automatisk ved opstart (spring.sql.init.mode=always) den fra app.prop
 
-       USE fakeDB;
 
-DROP TABLE IF EXISTS touristattraction;
-CREATE TABLE IF NOT EXISTS touristattraction (
-    touristattraction_id INT AUTO_INCREMENT PRIMARY KEY,
-    touristattraction_name VARCHAR(255) NOT NULL,
-    touristattraction_description VARCHAR(255)  NOT NULL,
-    touristattraction_city VARCHAR(255) FOREIGN KEY,
-    touristattraction_tags VARCHAR(255) FOREIGN KEY,
-    touristattraction_image VARCHAR(255) NOT NULL,
-    FOREIGN KEY (touristattraction_city) REFERENCES city (city_id)
-    FOREIGN KEY (touristattraction_tags) REFERENCES touristattraction_tags (touristattraction_tags_id)
-)
-
-DROP TABLE IF EXISTS tags;
-CREATE TABLE IF NOT EXISTS tags (
-    tags_id INT AUTO_INCREMENT PRIMARY KEY,
-    tags_tag VARCHAR(255) NOT NULL, -- (unique?)
-    )
-
---not needed?
-DROP TABLE IF EXISTS city;
+-- By 1 by har mange attraktioner
 CREATE TABLE IF NOT EXISTS city (
-    city_id INT AUTO_INCREMENT PRIMARY KEY,
-    city_name VARCHAR(255), not null
-    )
+    city_id   INT          NOT NULL AUTO_INCREMENT,
+    city_name VARCHAR(100) NOT NULL,
+    PRIMARY KEY (city_id),
+    CONSTRAINT uq_city_name UNIQUE (city_name)
+);
 
-DROP TABLE IF EXISTS touristattraction_tags;
-CREATE TABLE IF NOT EXISTS tourist_tags (
-    touristattraction_tags_id int, -- combo key fra city + tag?
-    touristattraction_tags_touristattraction VARCHAR(255),
-    touristattraction_tags_tag VARCHAR(255),
-    PRIMARY KEY(tourist_tags_city, tourist_tags_tag), -- behover ikke være et field/celle/Whatever?
-    FOREIGN KEY (tourist_tags_touristattraction) REFERENCES touristattraction (touristattraction_id)
-    FOREIGN KEY (tourist_tags_tag) REFERENCES tags (tags_id)
-    )
+-- Tag mange-til-mange med attraktion via attraction_tag
+CREATE TABLE IF NOT EXISTS tag (
+    tag_id   INT          NOT NULL AUTO_INCREMENT,
+    tag_name VARCHAR(100) NOT NULL,
+    PRIMARY KEY (tag_id),
+    CONSTRAINT uq_tag_name UNIQUE (tag_name)
+);
+
+-- Turistattraktion
+CREATE TABLE IF NOT EXISTS tourist_attraction (
+    attraction_id INT          NOT NULL AUTO_INCREMENT,
+    name          VARCHAR(100) NOT NULL,
+    description   VARCHAR(255) NOT NULL,
+    image         VARCHAR(255),
+    city_id       INT          NOT NULL,
+    PRIMARY KEY (attraction_id),
+    CONSTRAINT uq_attraction_name UNIQUE (name),
+    CONSTRAINT fk_attraction_city FOREIGN KEY (city_id) REFERENCES city (city_id)
+);
+
+-- Koblingstabel mellem attraktion og tag sammensat primærnøgle
+CREATE TABLE IF NOT EXISTS attraction_tag (
+    attraction_id INT NOT NULL,
+    tag_id        INT NOT NULL,
+    PRIMARY KEY (attraction_id, tag_id),
+    CONSTRAINT fk_at_attraction FOREIGN KEY (attraction_id)
+        REFERENCES tourist_attraction (attraction_id) ON DELETE CASCADE,
+    CONSTRAINT fk_at_tag FOREIGN KEY (tag_id)
+        REFERENCES tag (tag_id) ON DELETE CASCADE
+);

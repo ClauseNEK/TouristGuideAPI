@@ -3,6 +3,7 @@ package com.example.touristguideapi.model;
 import java.util.List;
 
 public class TouristAttraction {
+    private int id;
     private String name;
     private String description;
     private String city;
@@ -21,7 +22,16 @@ public class TouristAttraction {
         this.image = image;
     }
 
+    public TouristAttraction(int id, String name, String description, String city, List<String> tags, String image) {
+        this(name, description, city, tags, image);
+        this.id = id;
+    }
+
     // Getters
+    public int getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
@@ -43,6 +53,10 @@ public class TouristAttraction {
     }
 
     // Setters
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void setName(String name) {
         this.name = name;
     }

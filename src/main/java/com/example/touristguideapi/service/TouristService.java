@@ -4,6 +4,7 @@ import com.example.touristguideapi.model.TouristAttraction;
 import com.example.touristguideapi.repository.TouristRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class TouristService {
         this.touristRepository = touristRepository;
     }
 
+    @Transactional // attraktion + tags gemmes samlet, eller slet ikke
     public void addAttraction(TouristAttraction attraction) {
         touristRepository.addAttraction(attraction);
     }
@@ -29,6 +31,7 @@ public class TouristService {
         return touristRepository.searchAttractionByString(name);
     }
 
+    @Transactional
     public void updateAttraction(String name, TouristAttraction updated) {
         touristRepository.updateAttraction(name, updated);
     }
