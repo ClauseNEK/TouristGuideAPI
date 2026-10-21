@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS touristattraction (
 DROP TABLE IF EXISTS tags;
 CREATE TABLE IF NOT EXISTS tags (
     tags_id INT AUTO_INCREMENT PRIMARY KEY,
-    tags_tag VARCHAR(255) NOT NULL,(unique?)
+    tags_tag VARCHAR(255) NOT NULL, -- (unique?)
     )
 
 --not needed?
