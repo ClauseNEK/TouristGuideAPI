@@ -79,6 +79,22 @@ public class TouristRepository {
 
         //Kan også gøres sådan her, hvis rowmapper klassen er sat op ordenligt...Vi kommer nok til at mangle id i TouristAttraction
         List<touristattraction> ta_list = jdbcTemplate.query("SELECT * FROM touristattraction", new TouristAttractionRowMapper());
+
+
+public void addAttraction(TouristAttraction newTA) throws SQLException {
+
+    String query = "INSERT INTO touristattraction(name, desciption, city, tags, image) VALUES( ?, ?, ?, ?, ?)";
+
+    PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+        preparedStatement.setString(1, newTA.getName());
+        preparedStatement.setString(2, newTA.getDescirption());
+        preparedStatement.setString(3, newTA.getCity()); //foreingkey gets set from here?
+        preparedStatement.setListOf(4, newTA.getTags()); //foreingkey & list?!
+        preparedStatement.setString(5, newTA.getImage());
+        preparedStatement.executeUpdate();
+}
+
 */
 
 
