@@ -33,7 +33,7 @@ class TouristGuideApiApplicationTests {
 
     @Test
     void save() {
-        tr.addAttraction( new TouristAttraction("lol-o-hoj","description", "city", List.of("fun","notfun"), "tivoli.png"));
+        tr.addAttraction( new TouristAttraction("lol-o-hoj","description", "København", List.of("Børnevenlig","Underholdning"), "tivoli.png"));
         List<TouristAttraction> all = tr.getAllAttractions();
         assertThat(all).isNotNull();
         assertThat(all.getLast().getName()).isEqualTo("lol-o-hoj");
