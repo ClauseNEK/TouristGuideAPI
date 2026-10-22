@@ -39,3 +39,4 @@ class TouristGuideApiApplicationTests {
         assertThat(all.getLast().getName()).isEqualTo("lol-o-hoj");
     }
 }
+
