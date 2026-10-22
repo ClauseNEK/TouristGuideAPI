@@ -21,22 +21,24 @@ class TouristGuideApiApplicationTests {
     @Autowired
     TouristRepository tr;
 
+
+
+    @Test
+    void save() {
+        tr.addAttraction( new TouristAttraction("Mikkel","description", "København", List.of("Børnevenlig","Underholdning"), "tivoli.png"));
+        List<TouristAttraction> all = tr.getAllAttractions();
+        assertThat(all).isNotNull();
+        assertThat(all.getLast().getName()).isEqualTo("Mikkel");
+    }
+
     @Test
     void findFirst() {
         List<TouristAttraction> all = tr.getAllAttractions();
 
         assertThat(all).isNotNull();
         assertThat(all.getFirst().getName()).isEqualTo("Tivoli");
-        assertThat(all.getLast().getName()).isEqualTo("TuristInformation");
+        assertThat(all.getLast().getName()).isEqualTo("Mikkel");
 
-    }
-
-    @Test
-    void save() {
-        tr.addAttraction( new TouristAttraction("lol-o-hoj","description", "København", List.of("Børnevenlig","Underholdning"), "tivoli.png"));
-        List<TouristAttraction> all = tr.getAllAttractions();
-        assertThat(all).isNotNull();
-        assertThat(all.getLast().getName()).isEqualTo("lol-o-hoj");
     }
 }
 
